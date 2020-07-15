@@ -1,0 +1,13 @@
+﻿  main.cpp
+  ofApp.cpp
+     Creating library bin\001_projectsketch_debug.lib and object bin\001_projectsketch_debug.exp
+  001_projectsketch.vcxproj -> D:\Users\dhruv\Documents\of_v0.11.0_vs2017_release\apps\openframeworks_projects\Projects\001_projectsketch\bin\001_projectsketch_debug.exe
+  
+  	                   2	D:\Users\dhruv\Documents\of_v0.11.0_vs2017_release\libs\fmodex\lib\vs\Win32\
+  	    New File  		 1266176	D:\Users\dhruv\Documents\of_v0.11.0_vs2017_release\libs\fmodex\lib\vs\Win32\fmodex.dll
+  	    New File  		 1312768	D:\Users\dhruv\Documents\of_v0.11.0_vs2017_release\libs\fmodex\lib\vs\Win32\fmodexL.dll
+  
+  	                   1	D:\Users\dhruv\Documents\of_v0.11.0_vs2017_release\libs\FreeImage\lib\vs\Win32\
+  	  *EXTRA File 		 1266176	D:\Users\dhruv\Documents\of_v0.11.0_vs2017_release\apps\openframeworks_projects\Projects\001_projectsketch\bin\fmodex.dll
+  	  *EXTRA File 		 1312768	D:\Users\dhruv\Documents\of_v0.11.0_vs2017_release\apps\openframeworks_projects\Projects\001_projectsketch\bin\fmodexL.dll
+  	    New File  		 6018560	D:\Users\dhruv\Documents\of_v0.11.0_vs2017_release\libs\FreeImage\lib\vs\Win32\FreeImage.dll
