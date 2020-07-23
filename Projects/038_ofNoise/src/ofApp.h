@@ -21,8 +21,11 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
-		int amount=20;
+		int amount=10;
 
 		vector<float> speedx;
 		vector<float> speedy;
+		vector<float> speedz;
+
+		ofEasyCam camera;
 };
