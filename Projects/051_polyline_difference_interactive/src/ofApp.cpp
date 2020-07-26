@@ -2,35 +2,38 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	camera.setDeviceID(1); 
-	camera.setup(640,480);
+	cam.setDeviceID(1);
+	cam.setup(640, 480);
+
+	imitate(pxprevious, cam);
+	imitate(imgdifference, cam);
 
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	camera.update();
+	cam.update();
+
+	if (cam.isFrameNew()) {
+		absdiff(cam, pxprevious, imgdifference);
+		imgdifference.update();
+		copy(cam, pxprevious);
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	//camera.draw(0,0,640,480);
-
-	for (int i = 0; i < 640 ;i+=16) {
-		for (int j = 0; j <480; j += 16) {
-			ofColor color = camera.getPixels().getColor(i,j);
+	//imgdifference.draw(0, 0 ,640,480);
+	for (int i = 0; i < cam.getHeight(); i+=8) {
+		ofPolyline polyline;
+		for (int j = 0; j < cam.getWidth(); j++) {
+			ofColor color = imgdifference.getPixels().getColor(j, i);
 			int brightness = color.getBrightness();
-			ofPushMatrix();
-			ofTranslate(i, j);
-			ofRotateZDeg(ofMap(brightness,0,255,0,360));
-			ofDrawLine(0 - 8, 0, 0 + 8, 0);
-			ofSetLineWidth(ofMap(brightness, 0, 255, 5, 0));
-			ofPopMatrix();
+			polyline.addVertex(j, i + ofMap(brightness, 0, 255, 0, -64));
 		}
+		polyline=polyline.getSmoothed(5);
+		polyline.draw();
 	}
-}
-
-void ofApp::exit() {
 }
 
 //--------------------------------------------------------------

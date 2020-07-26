@@ -1,8 +1,10 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxKinect.h"
-#include "ofxOpenCv.h"
+#include "ofxCv.h"
+
+using namespace ofxCv;
+using namespace cv;
 
 class ofApp : public ofBaseApp{
 
@@ -10,7 +12,6 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
-		void exit();
 
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -24,5 +25,8 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
-		ofVideoGrabber camera;
+		ofVideoGrabber cam;
+
+		ofImage imgdifference;
+		ofPixels pxprevious;
 };
