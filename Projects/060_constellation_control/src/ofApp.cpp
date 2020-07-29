@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	cam.setDistance(5000);
+	cam.setDistance(10000);
 	osc.setup(8000);
 
 	ofBackground(0);
@@ -78,8 +78,8 @@ void ofApp::update(){
 			auto distance = glm::distance(position, jdistance);
 			if (distance<uidistance)
 			{
-				//mesh.addIndex(i);
-				//mesh.addIndex(j);
+				mesh.addIndex(i);
+				mesh.addIndex(j);
 			}
 		}
 	}
