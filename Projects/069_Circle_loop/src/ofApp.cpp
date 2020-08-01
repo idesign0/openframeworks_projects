@@ -42,11 +42,11 @@ void ofApp::draw(){
 			ofPushMatrix();
 			ofTranslate(uiPosition->x, uiPosition->y);
 			float radius = uiRadius;
-			//for (int i = 0; i < uiAmount; i++)
+			for (int i = 0; i < uiAmount; i++)
 			{
-				float noisex = ofNoise((ofGetElapsedTimef() )*uiPower->x);
-				float noisey = ofNoise((ofGetElapsedTimef() )*uiPower->y);
-				float noiseZ = ofNoise((ofGetElapsedTimef() )*uiPower->z);
+				float noisex = ofNoise((ofGetElapsedTimef() + i)*uiPower->x);
+				float noisey = ofNoise((ofGetElapsedTimef() + i)*uiPower->y);
+				float noiseZ = ofNoise((ofGetElapsedTimef() + i)*uiPower->z);
 
 				float x = ofGetWidth() / 2 * noisex;
 				float y = ofGetHeight() / 2 * noisey;
@@ -54,7 +54,7 @@ void ofApp::draw(){
 
 				ofNoFill();
 				ofSetColor(255);
-
+				
 				fbo.begin();
 				cam.begin();
 
@@ -63,17 +63,18 @@ void ofApp::draw(){
 				
 				cam.end();
 				fbo.end();
-				fbo.draw(0, 0, fbo.getWidth(), fbo.getHeight());
 
 				reader.readToPixels(fbo, pixels);
 
 				if (record.getWidth() > 0 && record.getHeight() > 0) {
 					record.addFrame(pixels);
 				}
-
-				//radius += i;
+				
+				radius += i;
 			}
 			ofPopMatrix();
+			fbo.draw(0, 0, fbo.getWidth(), fbo.getHeight());
+	
 		}
 
 	}
