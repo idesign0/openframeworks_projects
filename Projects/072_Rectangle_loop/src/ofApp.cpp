@@ -2,13 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGB);
-	
-	record.setup(true, false);
-	record.setWidth(ofGetWidth());
-	record.setHeight(ofGetHeight());
-	record.setFFmpegPath(ofToDataPath("ffmpeg.exe"));
-	record.setFps(60);
+	ofBackground(0);
 }
 
 //--------------------------------------------------------------
@@ -18,44 +12,22 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	if (!record.isPaused()) {
-		if (brecording)
-		{
-			fbo.readToPixels(pixels);
-			if (pixels.getWidth()>0 && pixels.getHeight() > 0)
-			{	
-				record.addFrame(pixels);
-			}
-		}	}
-	fbo.draw(0, 0);
+	ofTranslate(ofGetWidth() / 2, ofGetHeight() / 2);
+	ofNoFill();
+	ofSetLineWidth(2);
+	ofSetRectMode(OF_RECTMODE_CENTER);
+
+	for (int i = 0; i < 50; i++)
+	{
+		ofRotateDeg(ofGetElapsedTimef());
+		ofScale(0.9);
+		ofDrawRectangle(0, 0, 600, 600);	
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	switch (key)
-	{
-	case 'r' :
-		brecording = !brecording;
-		if (record.isRecording())
-		{
-			record.stop();
-		}
-		else
-		{
-			record.setOutputPath(ofToDataPath("2.mp4", false));
-			record.startCustomRecord();
-		}
-		break;
-	case 'p':
-		if (record.isPaused()) {
-			record.setPaused(false);
-		}
-		else {
-			record.setPaused(true);
-		}
-	default:
-		break;
-	}
+
 }
 
 //--------------------------------------------------------------
@@ -70,9 +42,7 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-	fbo.begin();
-	ofDrawCircle(x, y, 3);
-	fbo.end();
+
 }
 
 //--------------------------------------------------------------

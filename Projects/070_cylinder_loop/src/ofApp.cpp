@@ -2,60 +2,52 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGB);
-	
-	record.setup(true, false);
-	record.setWidth(ofGetWidth());
-	record.setHeight(ofGetHeight());
-	record.setFFmpegPath(ofToDataPath("ffmpeg.exe"));
-	record.setFps(60);
+	ofSetCylinderResolution(128, 64);
+	ofSetSphereResolution(128);	
+
+	gui.setup();
+	gui.add(uiAmount.set("Amount", 1, 1, 4));
+	gui.add(uiPower.set("Power", 0, 0, 60));
+	gui.add(uiLightPosition.set("Light Position", ofVec3f(0), ofVec3f(-300), ofVec3f(300)));
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	light.setPosition(uiLightPosition->x, uiLightPosition->y, uiLightPosition->z); 
 
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	if (!record.isPaused()) {
-		if (brecording)
+	ofPushMatrix();
+	ofEnableDepthTest();
+	light.enable();
+	cam.begin();
+
+	for (int i = 0; i < uiAmount; i++)
+	{
+		for (int j = 0; j < uiAmount; j++)
 		{
-			fbo.readToPixels(pixels);
-			if (pixels.getWidth()>0 && pixels.getHeight() > 0)
-			{	
-				record.addFrame(pixels);
-			}
-		}	}
-	fbo.draw(0, 0);
+			float y = sin(ofGetElapsedTimef() + i) * uiPower;
+			ofSetColor(200, 150, 130);
+			ofDrawSphere(i * 64, 48 - y, j * 64, 16); 
+			ofSetColor(140);
+			ofDrawCylinder(i * 64,0,j * 64, 24, 128);
+		}
+	}
+	cam.end();
+	light.disable();
+	ofDisableDepthTest();
+	ofPopMatrix();
+
+	if (bhide) {
+		gui.draw();
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	switch (key)
-	{
-	case 'r' :
-		brecording = !brecording;
-		if (record.isRecording())
-		{
-			record.stop();
-		}
-		else
-		{
-			record.setOutputPath(ofToDataPath("2.mp4", false));
-			record.startCustomRecord();
-		}
-		break;
-	case 'p':
-		if (record.isPaused()) {
-			record.setPaused(false);
-		}
-		else {
-			record.setPaused(true);
-		}
-	default:
-		break;
-	}
+	bhide = !bhide;
 }
 
 //--------------------------------------------------------------
@@ -70,9 +62,7 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-	fbo.begin();
-	ofDrawCircle(x, y, 3);
-	fbo.end();
+
 }
 
 //--------------------------------------------------------------

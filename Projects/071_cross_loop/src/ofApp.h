@@ -2,8 +2,6 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
-#include "ofxFFmpegRecorder.h"
-#include "ofxFastFboReader.h"	
 
 class ofApp : public ofBaseApp{
 
@@ -24,21 +22,9 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
-		ofxFFmpegRecorder record;
-		ofxFastFboReader reader;
-		bool brecording = false;
-		
-		ofImage image;
-		ofPixels pixels;
-		ofFbo fbo;
-
 		ofxPanel gui;
 		ofParameter<int> uiAmount;
-		ofParameter<ofVec3f> uiPower;
-		ofParameter<float> uiRadius;
-		ofParameter<ofVec2f> uiPosition;
+		ofParameter<float> uiSpeed;
 
-
-		ofEasyCam cam;
-		bool bHide = false;
+		bool bhide = false;
 };

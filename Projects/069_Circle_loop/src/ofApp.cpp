@@ -2,16 +2,13 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGB);
 	ofBackground(0);
-	
+
 	record.setup(true, false);
 	record.setWidth(ofGetWidth());
 	record.setHeight(ofGetHeight());
-	//record.setVideoCodec("prores");
-	record.setBitRate(3000);
+	//record.setVideoCodec("mpeg4");
 
-	
 	record.setFFmpegPath(ofToDataPath("ffmpeg.exe"));
 	record.setFps(60);
 	
@@ -31,7 +28,8 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+	image.grabScreen(0, 0, ofGetWidth(), ofGetHeight());
+	pixels = image.getPixels();
 }
 
 //--------------------------------------------------------------
@@ -39,7 +37,9 @@ void ofApp::draw(){
 	
 	if (!record.isPaused()) {
 		if (brecording) {
+			
 			ofPushMatrix();
+			cam.begin();
 			ofTranslate(uiPosition->x, uiPosition->y);
 			float radius = uiRadius;
 			for (int i = 0; i < uiAmount; i++)
@@ -53,28 +53,14 @@ void ofApp::draw(){
 				float z = ofGetHeight() / 2 * noiseZ;
 
 				ofNoFill();
-				ofSetColor(255);
-				
-				fbo.begin();
-				cam.begin();
-
-				ofClear(0, 0, 0, 255);
 				ofDrawCircle(x, y, z, radius);
-				
-				cam.end();
-				fbo.end();
 
-				reader.readToPixels(fbo, pixels);
-
-				if (record.getWidth() > 0 && record.getHeight() > 0) {
-					record.addFrame(pixels);
-				}
+				record.addFrame(pixels);
 				
 				radius += i;
 			}
+			cam.end();
 			ofPopMatrix();
-			fbo.draw(0, 0, fbo.getWidth(), fbo.getHeight());
-	
 		}
 
 	}
