@@ -1,2 +1,3 @@
+ofxFastFboReader
 ofxFFmpegRecorder
 ofxGui

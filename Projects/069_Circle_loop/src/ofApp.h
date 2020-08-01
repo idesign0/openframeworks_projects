@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 #include "ofxFFmpegRecorder.h"
+#include "ofxFastFboReader.h"	
 
 class ofApp : public ofBaseApp{
 
@@ -24,6 +25,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 		
 		ofxFFmpegRecorder record;
+		ofxFastFboReader reader;
 		bool brecording = false;
 		
 		ofPixels pixels;
@@ -34,6 +36,7 @@ class ofApp : public ofBaseApp{
 		ofParameter<ofVec3f> uiPower;
 		ofParameter<float> uiRadius;
 		ofParameter<ofVec2f> uiPosition;
+
 
 		ofEasyCam cam;
 		bool bHide = false;

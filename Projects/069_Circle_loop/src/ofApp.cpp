@@ -2,19 +2,20 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
 	fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGB);
-
 	ofBackground(0);
-
+	
 	record.setup(true, false);
 	record.setWidth(ofGetWidth());
 	record.setHeight(ofGetHeight());
+	//record.setVideoCodec("prores");
+	record.setBitRate(3000);
+
 	
 	record.setFFmpegPath(ofToDataPath("ffmpeg.exe"));
 	record.setFps(60);
 	
-	ofSetLineWidth(3);
+	ofSetLineWidth(3);	
 	ofSetCircleResolution(128);
 
 	gui.setup();
@@ -39,14 +40,13 @@ void ofApp::draw(){
 	if (!record.isPaused()) {
 		if (brecording) {
 			ofPushMatrix();
-			cam.begin();
 			ofTranslate(uiPosition->x, uiPosition->y);
 			float radius = uiRadius;
-			for (int i = 0; i < uiAmount; i++)
+			//for (int i = 0; i < uiAmount; i++)
 			{
-				float noisex = ofNoise((ofGetElapsedTimef() + i)*uiPower->x);
-				float noisey = ofNoise((ofGetElapsedTimef() + i)*uiPower->y);
-				float noiseZ = ofNoise((ofGetElapsedTimef() + i)*uiPower->z);
+				float noisex = ofNoise((ofGetElapsedTimef() )*uiPower->x);
+				float noisey = ofNoise((ofGetElapsedTimef() )*uiPower->y);
+				float noiseZ = ofNoise((ofGetElapsedTimef() )*uiPower->z);
 
 				float x = ofGetWidth() / 2 * noisex;
 				float y = ofGetHeight() / 2 * noisey;
@@ -55,19 +55,26 @@ void ofApp::draw(){
 				ofNoFill();
 				ofSetColor(255);
 
-			//	fbo.begin();
+				fbo.begin();
+				cam.begin();
+
+				ofClear(0, 0, 0, 255);
 				ofDrawCircle(x, y, z, radius);
-			//	fbo.end();
-			//	fbo.readToPixels(pixels);
-			//	record.addFrame(pixels);
 				
-				radius += i;
+				cam.end();
+				fbo.end();
+				fbo.draw(0, 0, fbo.getWidth(), fbo.getHeight());
+
+				reader.readToPixels(fbo, pixels);
+
+				if (record.getWidth() > 0 && record.getHeight() > 0) {
+					record.addFrame(pixels);
+				}
+
+				//radius += i;
 			}
-			cam.end();
 			ofPopMatrix();
 		}
-
-		//fbo.draw(0, 0);
 
 	}
 	if (bHide) {
@@ -86,8 +93,9 @@ void ofApp::keyPressed(int key){
 			record.stop();
 		}
 		else
-		{
-			record.setOutputPath(ofToDataPath("1.mp4", true));
+		{	
+			string filename = ofToString(ofGetElapsedTimef()) + ".mp4";
+			record.setOutputPath(ofToDataPath(filename, true));
 			record.startCustomRecord();
 		}
 		break;
