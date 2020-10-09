@@ -7,7 +7,7 @@ void parameter::setup() {
 	lifeTime = 2.0;
 	rotate = 0;
 
-	force = 1000;
+	force = -2000;
 	spinning_force = 1000;
 	friction = 0.05;
 }

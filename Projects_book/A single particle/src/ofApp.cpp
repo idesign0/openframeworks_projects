@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-	ofSetFullscreen(true);
+	ofSetFullscreen(false);
 	ofSetFrameRate(60);
 
 	int w = ofGetWidth();
@@ -37,6 +37,7 @@ void ofApp::update(){
 	while(i<p.size()){
 		if (!p[i].live) {
 			p.erase(p.begin() + i);
+			//cout << "clear" << endl;
 		}
 		else {
 			i++;
@@ -44,6 +45,7 @@ void ofApp::update(){
 	}
 	//born new particle
 	boarnCount += dt * boarnRate; // update boarn count value
+	//cout << boarnCount << endl;
 	if (boarnCount >= 1) {
 		int boarN = int(boarnCount); // how many boarn
 		boarnCount -= boarN; // correct boarn count
