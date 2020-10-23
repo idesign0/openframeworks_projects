@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	image.load("sunflower.jpg");
+	//image.saveImage("test.png");
 }
 
 //--------------------------------------------------------------
@@ -12,8 +13,28 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	image.saveImage("test.png");
-	image.draw(0,image.getHeight(),image.getWidth(),-image.getHeight());
+	ofBackground(255);
+
+	for (int i = 0; i < 100; i++)
+	{
+		ofPushMatrix();
+		// translate system cordinate to screen center
+		ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
+
+		//rotate coordinate system on i * 15 degrees
+		ofRotate(i * 15);
+
+		//go right on 50+i*10 pixels
+		ofTranslate(50 + i * 10, 0);
+
+		//scale the coordinate system for decresing drawing 
+		//image size
+		float sc1 = 1.0 - i * 0.8 / 20.0;
+		ofScale(sc1, sc1);
+
+		image.draw(-100, -100);
+		ofPopMatrix();
+	}
 }
 
 //--------------------------------------------------------------
